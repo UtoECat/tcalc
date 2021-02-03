@@ -11,6 +11,9 @@
 #include<set>
 #include<sstream>
 #include<iomanip>
+#include<cmath>
+#include<wchar.h>
+#include<wctype.h>
 
 //defines
 #define C_D << "\u001b[47m\u001b[30m"
@@ -25,6 +28,7 @@ double i = 0,i2 = 0,ir = 0; //Main Numbers
 char   opr = '+';// Operation Char
 int    STAT = 0; // Work Position
 string history[5] = {"1","2","3","4","С++ is cool!!!"};//History Array
+const char C_SQR = u'\u221a';
 
 //main sets
 set<char> mcharSet;
@@ -112,13 +116,14 @@ double getNum()
 	return atof(cach.c_str());
 }
 
-//Math Char Input Controller
+//Math char Input Controller
 char getChr()
 {
 	char c = '+',r;
 	while (!(c == '\n'))
 	{
-	if (mcharSet.set::count(c)) {
+	if (mcharSet.set::count(c) || c == 's' || c == 'S') {
+	if (c == 's' || c == 'S') { c = C_SQR;}
 	cout << c;
 	cin.clear();
 	cout << "\u001b[1D";
@@ -138,6 +143,9 @@ double calclTe (double i,double i2,char mm)
 	case '+' : return i + i2;
 	case '-' : return i - i2;
 	case '*' : return i * i2;
+	case '%' : return i * i2 / 100;
+	case '^' : return pow(i,i2);
+	case C_SQR : return i * sqrt(i2);
 	case '/' : if (i2 == 0) { return 0; } else { return i / i2;}
 	default  : return 0;
 	}
@@ -185,6 +193,9 @@ int main ()
 	mcharSet.insert('-');
 	mcharSet.insert('/');
 	mcharSet.insert('*');
+	mcharSet.insert('%');
+	mcharSet.insert('^');
+	mcharSet.insert(C_SQR);
 	//MAIN CYCLE
 	while (work)
 	{	
