@@ -18,6 +18,7 @@
 //defines
 #define C_D << "\u001b[47m\u001b[30m"
 #define C_B << "\u001b[46m\u001b[37m" << endl
+#define C_V 0.4
 
 //namespace
 using namespace std;
@@ -181,13 +182,9 @@ sstr << d;
 return sstr.str();
 }
 
-//*********************************************************************
-
-
-//*********************************************************************
-int main ()
+void Init()
 {
-	initTermios(0); //make mew terminal options
+initTermios(0); //make mew terminal options
 	cout << "\033]0;TCALC - SIMPLE TERMINAL CALCULATOR\007";
 	mcharSet.insert('+'); // add chars to set
 	mcharSet.insert('-');
@@ -196,6 +193,28 @@ int main ()
 	mcharSet.insert('%');
 	mcharSet.insert('^');
 	mcharSet.insert(C_SQR);
+}
+
+void helpout ();
+//*********************************************************************
+
+
+//*********************************************************************
+int main (int argc, char *argv[])
+{
+	//check help or other arguments
+	std::string argv1 = argv[1];
+	if (argc > 1)
+	{
+    if (argv1 == "--help")
+	{helpout();}
+	else if (argv1 == "--version")
+	{cout << "VERSION " << C_V << endl;}
+	else { cout << "Invalid command!";}
+	}
+	else {
+	//string sss = argv[1];
+	Init();
 	//MAIN CYCLE
 	while (work)
 	{	
@@ -231,7 +250,7 @@ int main ()
 			case 3 : cout << "Enter second number :";i2 = getNum(); STAT++; break;
 			case 4 : cout << "RESULT : " << ir C_B << " " C_D << "║#";
 					myPause();
-					historyAdd(dblToStr(i)+u' '+opr+u' '+dblToStr(i2)+" = "+dblToStr(ir));
+					historyAdd(dblToStr(i)+' '+opr+' '+dblToStr(i2)+" = "+dblToStr(ir));
 					STAT = 1;
 					i = 0;
 					i2 = 0;
@@ -247,6 +266,7 @@ int main ()
 	cout <<"\033[1;1H" << endl; //goto 0;0 position
 	std::system("clear"); // clear terminal
 	cout << "thank you for using tcalc!" << endl; // goodbye!
+	}
 	return 0;//end
 }
 
@@ -257,9 +277,12 @@ void doDraw()
 // white fill - \u001b[47m  text - \u001b[30m
 // blue fill -  \u001b[46m  text - \u001b[37m
 cout
+<<"\u001b[46m\u001b[37m"
 <<" *     "  C_D <<"╔═══════════════════════════════════════════╗"                C_B
-<<" *     "  C_D <<"║        Simple Terminal Calculator         ║██"              C_B
-<<" *     "  C_D <<"║       Version 0.2 (GNU) By UtoECat        ║██"              C_B
+<<" *     "  C_D <<"║      --Simple Terminal Calculator--  . .  ║██"              C_B
+<<" *     "  C_D <<"║      -Version "
+<< C_V
+<< " (GNU) By UtoECat- ☢BETA☢║██" C_B
 <<" *     "  C_D <<"╚═══════════════════════════════════════════╝██"              C_B
 <<" *      " C_D <<"██████████████████████████████████████████████"               C_B
 <<" "   C_D <<"╔════════════════════════════════════════════════════════╗"   C_B;
@@ -307,4 +330,26 @@ cout<<" "   C_D <<"║                        HISTORY :                       �
 cout
 <<" "   C_D <<"╚════════════════════════════════════════════════════════╝██" C_B
 <<"  "  C_D <<"███████████████████████████████████████████████████████████"  << "\u001b[46m\u001b[37m";
+}
+
+void helpout ()
+{
+cout
+<<"                          HELP :                       " << endl
+<<"┌┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┐" << endl
+<<"┊* Press E or E key to exit. This is simple terminal   ┊" << endl
+<<"┊* calculator, writed in C++. It can calculate simple  ┊" << endl
+<<"┊* mathematical expression like X + Y = ... It can аlso┊" << endl
+<<"┊* multiply, divide , find perchange and other..You can┊" << endl
+<<"┊* freely copy, distribute and modify this calculator, ┊" << endl
+<<"┊* provided that you guarantee all these rights to other" << endl
+<<"┊* users who will use your copy / modification, and you┊" << endl
+<<"┊* also agree not to alter the authorship of this calc ┊" << endl
+<<"┊* You can only identify yourself as a developer of a  ┊" << endl
+<<"┊* modification or a distributor. Learn more about GNU:┊" << endl
+<<"┊* www.gnu.org/licenses/gpl-3.0.ru.html                ┊" << endl
+<<"┊   --Simple Terminal Calculator (GNU) By UtoECat--    ┊" << endl
+<<"┊Version " << C_V <<"                                           ┊" << endl
+<<"└┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┘" << endl
+<<"C++ is cool!"<<endl;
 }
